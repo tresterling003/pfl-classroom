@@ -35,7 +35,7 @@ if (process.env.DATABASE_URL) {
   close = () => sql.end();
 } else {
   const { PGlite } = await import("@electric-sql/pglite");
-  const db = new PGlite(process.env.PGLITE_DIR ?? path.join(process.cwd(), ".data", "pglite"));
+  const db = new PGlite(process.env.PGLITE_DIR ?? path.join((await import("node:os")).homedir(), ".pfl-classroom", "pglite"));
   run = async (q, params) => (await db.query(q, params)).affectedRows ?? 0;
   close = () => db.close();
 }

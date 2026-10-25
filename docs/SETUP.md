@@ -104,6 +104,6 @@ Any PostgreSQL 14+ works. Set `DATABASE_URL` to its connection string; for Supab
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000, embedded database in ./.data
+npm run dev        # http://localhost:3000, embedded database in ~/.pfl-classroom
 npm test           # automated tests
 ```

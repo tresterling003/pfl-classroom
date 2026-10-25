@@ -1,3 +1,4 @@
+import os from "node:os";
 import { defineConfig, devices } from "@playwright/test";
 
 // Run against an already-running server with E2E_BASE_URL, or let Playwright start a dev server.
@@ -24,6 +25,6 @@ export default defineConfig({
         url: "http://localhost:3200",
         timeout: 180_000,
         reuseExistingServer: true,
-        env: { PGLITE_DIR: ".data/e2e-pglite", TEACHER_SETUP_CODE: process.env.TEACHER_SETUP_CODE ?? "e2e-setup-code" },
+        env: { PGLITE_DIR: os.tmpdir() + "/pfl-e2e-pglite", TEACHER_SETUP_CODE: process.env.TEACHER_SETUP_CODE ?? "e2e-setup-code" },
       },
 });

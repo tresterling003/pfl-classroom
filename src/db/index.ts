@@ -6,6 +6,7 @@
  *   created and migrated automatically. Nothing to install.
  */
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { drizzle as drizzlePg, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
@@ -30,12 +31,31 @@ async function connect(): Promise<DB> {
   const { PGlite } = await import("@electric-sql/pglite");
   const { drizzle } = await import("drizzle-orm/pglite");
   const { migrate } = await import("drizzle-orm/pglite/migrator");
-  const dir = process.env.PGLITE_DIR ?? path.join(process.cwd(), ".data", "pglite");
+  const dir = process.env.PGLITE_DIR ?? localDataDir();
   fs.mkdirSync(dir, { recursive: true });
   const pg = new PGlite(dir);
   const db = drizzle(pg, { schema });
   await migrate(db, { migrationsFolder: MIGRATIONS });
   return db as unknown as DB;
+}
+
+/**
+ * Local database folder. It must live OUTSIDE the project: the dev server watches the
+ * project folder, and database writes inside it trigger page reloads mid-assignment.
+ * An older copy in ./.data/pglite is moved here automatically.
+ */
+function localDataDir() {
+  const dir = path.join(os.homedir(), ".pfl-classroom", "pglite");
+  const old = path.join(process.cwd(), ".data", "pglite");
+  if (!fs.existsSync(dir) && fs.existsSync(path.join(old, "PG_VERSION"))) {
+    fs.mkdirSync(path.dirname(dir), { recursive: true });
+    try {
+      fs.renameSync(old, dir);
+    } catch {
+      fs.cpSync(old, dir, { recursive: true });
+    }
+  }
+  return dir;
 }
 
 export function getDb(): Promise<DB> {

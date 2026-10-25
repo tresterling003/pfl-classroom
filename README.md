@@ -24,7 +24,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000/teacher. On first visit you'll create your teacher account (no setup code is needed locally). Your data is stored in the `.data` folder; nothing else needs to be installed.
+Open http://localhost:3000/teacher. On first visit you'll create your teacher account (no setup code is needed locally). Your data is stored in a `.pfl-classroom` folder in your home directory; nothing else needs to be installed.
 
 Student join page: http://localhost:3000. Use the code shown after you publish an assignment.
 
