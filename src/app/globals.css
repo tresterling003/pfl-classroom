@@ -1,26 +1,84 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --color-ink-50: #f6f7fb;
+  --color-ink-100: #eceef6;
+  --color-ink-200: #d9dcea;
+  --color-ink-300: #b4b9d1;
+  --color-ink-400: #8a90ad;
+  --color-ink-500: #646a88;
+  --color-ink-600: #4b5070;
+  --color-ink-700: #363a57;
+  --color-ink-800: #23263d;
+  --color-ink-900: #151729;
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-200: #c7d2fe;
+  --color-brand-300: #a5b4fc;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-800: #3730a3;
+  --color-brand-900: #312e81;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --animate-pop: pop 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+  --animate-shake: shake 0.4s ease-in-out;
+  --animate-rise: rise 0.4s ease-out both;
+  --animate-glow: glow 1.8s ease-in-out infinite;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes pop {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+  }
+  @keyframes rise {
+    0% { transform: translateY(10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgb(99 102 241 / 0.35); }
+    50% { box-shadow: 0 0 0 8px rgb(99 102 241 / 0); }
   }
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink-50);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+}
+
+/* Visible keyboard focus everywhere (Chromebook keyboard users). */
+:focus-visible {
+  outline: 3px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.prose-table table { border-collapse: collapse; margin: 0.5rem 0; font-variant-numeric: tabular-nums; }
+.prose-table th, .prose-table td { border: 1px solid var(--color-ink-200); padding: 0.35rem 0.85rem; text-align: center; }
+.prose-table th { background: var(--color-ink-100); font-weight: 600; }
+
+.bg-grid {
+  background-image:
+    radial-gradient(circle at 20% 10%, rgb(99 102 241 / 0.18), transparent 40%),
+    radial-gradient(circle at 85% 30%, rgb(16 185 129 / 0.14), transparent 45%),
+    linear-gradient(to bottom, #f8f9ff, #eef0f9);
 }
